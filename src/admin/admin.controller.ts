@@ -12,8 +12,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateAdminDto } from './dtos/createAdmin.dto';
-import { UpdateAdminDto } from './dtos/updateAdmin.dto';
+import { CreateAdminDto } from './dtos/create.admin.dto';
+import { UpdateAdminDto } from './dtos/update.admin.dto';
 
 @Controller('admin')
 export class AdminController {
