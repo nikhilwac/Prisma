@@ -1,4 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthPaylodDto } from './dtos/auth.paylod.dto';
 import { AuthService } from './auth.service';
 
@@ -6,7 +13,10 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post()
-  login(@Body() authPaylodDto: AuthPaylodDto) {
-    return this.authService.validateUser(authPaylodDto);
+  @UsePipes(ValidationPipe)
+  async login(@Body() authPaylodDto: AuthPaylodDto) {
+    const user = await this.authService.validateUser(authPaylodDto);
+    if (!user) throw new HttpException('Invalid Credentials', 401);
+    return { token: user };
   }
 }

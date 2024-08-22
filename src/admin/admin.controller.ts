@@ -30,8 +30,10 @@ export class AdminController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createAdmin(@Body() createAdminDTO: CreateAdminDto) {
-    return this.adminService.createAdmin(createAdminDTO);
+  async createAdmin(@Body() createAdminDTO: CreateAdminDto) {
+    const isCreated = await this.adminService.createAdmin(createAdminDTO);
+    const { password, ...userDetails } = isCreated;
+    return userDetails;
   }
 
   @Patch(':id')
